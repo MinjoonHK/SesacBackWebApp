@@ -1,0 +1,66 @@
+<html lang='ko'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>이메일 인증</title>
+    <link
+      rel='stylesheet'
+      as='style'
+      crossorigin
+      href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'
+    />
+  </head>
+  <body>
+    <table
+      class='email-table'
+      style='background-color: #3561FF; width: 590px; height: 353px; border-radius: 22px; padding: 42px; box-sizing: border-box;'
+    >
+      <tr>
+        <td
+          class='title'
+          style='font-size: 24px; font-family: Pretendard-bold; color: white; padding-bottom: 16px; font-weight: bold;'
+        >
+          이메일을 인증해 주세요!
+        </td>
+      </tr>
+      <tr>
+        <td
+          class='welcome-message'
+          style='font-size: 16px; font-family: Pretendard-medium; color: white; padding-bottom: 26px;'
+        >
+          당찬에 오신 것을 진심으로 환영해요!<br />인증번호를 입력해서
+          회원가입을 완료해 주세요.
+        </td>
+      </tr>
+      <tr>
+        <td
+          class='code'
+          style='font-size: 44px; font-family: Pretendard-bold; font-weight: bold; color: white;'
+        >
+          {{code}}
+        </td>
+      </tr>
+      <tr>
+        <td style='padding-bottom: 0;'>
+          <table style='width: 100%;'>
+            <tr>
+              <td
+                class='footer'
+                style='font-size: 16px; font-family: Pretendard-medium; color: white;'
+              >
+                본인이 신청한 인증번호가 아니라면<br />무시해 주세요.
+              </td>
+              <td style='text-align: right;'>
+                <img
+                  src='cid:dangchan'
+                  alt='이미지를 표시할 수 없습니다!'
+                  style='width: 132.89px; height: 110px; margin: 0;'
+                />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
