@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Post,
   Request,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -17,9 +18,21 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    console.log(signInDto.email, signInDto.password);
-    return this.authService.signIn(signInDto.email, signInDto.password);
+  async signIn(@Res() res, @Body() signInDto: Record<string, any>) {
+    try {
+      const token = await this.authService.signIn(
+        signInDto.email,
+        signInDto.password,
+      );
+      return res.status(HttpStatus.OK).send({
+        data: token,
+      });
+    } catch (error) {
+      console.error('Sign-in error:', error);
+      return res.status(HttpStatus.UNAUTHORIZED).send({
+        message: 'Invalid credentials',
+      });
+    }
   }
 
   @Get('profile')
