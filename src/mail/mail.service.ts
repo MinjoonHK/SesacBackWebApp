@@ -1,11 +1,24 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as path from 'path';
+import { Repository } from 'typeorm';
+import { Verification } from './entity/verification.entity';
+import { User } from 'src/auth/entity/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
-  async sendMail(receiver: string) {
+  constructor(
+    private readonly mailerService: MailerService,
+    @InjectRepository(Verification)
+    private readonly verificationRepository: Repository<Verification>,
+  ) {}
+
+  generateVerificationCode(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  async sendMail(receiver: string, code: string) {
     try {
       await this.mailerService.sendMail({
         to: receiver,
@@ -24,7 +37,7 @@ export class MailService {
           },
         ],
         context: {
-          code: '1234',
+          code: code,
         },
       });
       return true;
@@ -32,5 +45,26 @@ export class MailService {
       console.error(err);
       return false;
     }
+  }
+
+  async saveVerificationCode(email: string, code: string) {
+    console.log(email, code);
+    const verification = this.verificationRepository.create({
+      email,
+      code,
+    });
+    await this.verificationRepository.save(verification);
+  }
+
+  async verifyCode(email: string, code: string): Promise<boolean> {
+    const verification = await this.verificationRepository.findOne({
+      where: { code, email },
+    });
+    console.log(verification);
+
+    if (verification && verification.email === email) {
+      return true;
+    }
+    return false;
   }
 }

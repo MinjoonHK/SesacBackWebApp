@@ -5,11 +5,14 @@ import { MailController } from './mail.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Verification } from './entity/verification.entity';
 
 dotenv.config();
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Verification]),
     MailerModule.forRoot({
       transport: {
         host: process.env.EMAIL_HOST,

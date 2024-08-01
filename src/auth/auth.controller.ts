@@ -18,11 +18,23 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+    console.log(signInDto.email, signInDto.password);
+    return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Public()
+  @Post('signup')
+  async signUp(@Body() signUpDto: Record<string, any>) {
+    return this.authService.signUp(
+      signUpDto.email,
+      signUpDto.password,
+      signUpDto.name,
+      signUpDto.birth,
+    );
   }
 }
