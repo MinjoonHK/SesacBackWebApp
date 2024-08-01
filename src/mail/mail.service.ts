@@ -5,11 +5,11 @@ import * as path from 'path';
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
-  async sendMail(receiver: string, subject: string) {
+  async sendMail(receiver: string) {
     try {
       await this.mailerService.sendMail({
         to: receiver,
-        subject: subject,
+        subject: '당찬 이메일 인증번호',
         template: './mailTemplate',
         headers: {
           'X-Entity-Ref-ID': '0',

@@ -1,20 +1,29 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  HttpCode,
+  Res,
+} from '@nestjs/common';
 import { MailService } from './mail.service';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('mail')
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
+  @Public()
   @Post('send')
-  async sendEmail(
-    @Body() emailData: { to: string; subject: string; content: string },
-  ) {
-    const { to, subject } = emailData;
-    const emailSent = await this.mailService.sendMail(to, subject);
+  async sendEmail(@Res() res, @Body() emailData: { to: string }) {
+    const { to } = emailData;
+    const emailSent = await this.mailService.sendMail(to);
     if (emailSent) {
-      return { message: 'Email sent successfully' };
+      res.status(200).send({ message: '성공적으로 이메일을 보냈습니다' });
     } else {
-      return { message: 'Failed to send email' };
+      res.status(500).send({ message: '이메일 전송에 실패하였습니다' });
     }
   }
 }
