@@ -21,10 +21,7 @@ dotenv.config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [User, Verification],
-      synchronize: true, // Entity 만들시 테이블 자동생성 개발 모듈에서만 사용
-      ssl: {
-        ca: process.env.DB_SSL,
-      },
+      synchronize: true,
     }),
     UsersModule,
     MailModule,
